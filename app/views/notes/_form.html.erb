@@ -7,7 +7,6 @@
   </fieldset>
   <%=submit_tag 'Save'%>
   <%=submit_tag 'Save without reindex',:name=>"no_reindex" if !@note.new_record?%>
-  <%=link_to_function 'Tab2Space',"tab2space()"%>
   <%=link_to 'Delete',note_path(@note),:method=>'delete',:confirm =>'Are you sure?' if @method == 'put'%>
 <%end%>
 <%= javascript_include_tag 'notes' %>
