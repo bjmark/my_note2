@@ -8,8 +8,10 @@ namespace :my_note do
           case e.job['name']
           when 'build_content_index'
             ContentIndex.add_note(e.job['note_id'],e.job['content'])
-            e.destroy
+          when 'update_content_index'
+            ContentIndex.update_note(e.job['note_id'],e.job['content'])
           end
+          e.destroy
         end
       rescue Exception => error
         #Log("workflow_storage", error.to_s)

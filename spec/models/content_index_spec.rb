@@ -22,4 +22,17 @@ describe ContentIndex do
     ContentIndex.del_note(note2)
     ContentIndex.where('word like ?','git%').count.should == 1
   end
+
+  specify 'update_note' do
+    note = Note.create!(:content=>"each git --cache \n --no-merge git")
+    
+    ContentIndex.add_note(note.id,note.content)
+    ContentIndex.where('word like ?','cache%').count.should == 1
+    
+    ContentIndex.update_note(note.id,"each git abc \n --no-merge git")
+    
+    ContentIndex.where('word like ?','abc%').count.should == 1
+    ContentIndex.where('word like ?','cache%').count.should == 0
+    ContentIndex.where('word like ?','git%').count.should == 1
+  end
 end

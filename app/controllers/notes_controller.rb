@@ -72,10 +72,12 @@ class NotesController < ApplicationController
 
     Category.bulk_update(note,params[:names])
 
-    unless params['no_reindex'] #do not rebuild index
-      ContentIndex.del_note(note)
-      ContentIndex.add_note(note)
-    end
+    job = {
+      'name' => 'update_content_index',
+      'note_id' => note.id,
+      'content' => note.content
+    }
+    BackgroundJob.create!(:job=>job)
 
     Operation.create!(:operation=>'update',:content=>params[:names].split("\n").join(','))
     redirect_to notes_path(:word=>"##{note.id}")

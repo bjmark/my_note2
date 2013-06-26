@@ -1,6 +1,7 @@
 class Note < ActiveRecord::Base
   has_many :categories_notes,:class_name=>'CategoriesNotes'
   has_many :categories,:through=>:categories_notes
+  has_many :content_indices
   attr_accessible :content
 
   def self.search(word,kind=:search)
